@@ -8,11 +8,250 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.drillin.oindrildutta.stormy.MainActivity"
-    android:id="@+id/background">
+    android:id="@+id/background"
+    android:background="#fc970b">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:id="@+id/hello" />
+        android:text="100"
+        android:id="@+id/temp"
+        android:textColor="#ffffff"
+        android:textSize="150sp"
+        android:layout_below="@+id/loc"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/degree"
+        android:layout_alignTop="@+id/temp"
+        android:layout_toEndOf="@+id/temp"
+        android:src="@mipmap/degree"
+        android:layout_marginTop="50dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="At 12:00 PM it is:"
+        android:id="@+id/time"
+        android:layout_alignTop="@+id/temp"
+        android:layout_centerHorizontal="true"
+        android:textColor="#80ffffff"
+        android:textSize="18dp"
+        android:textIsSelectable="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cupertino, CA"
+        android:id="@+id/loc"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/currentIcon"
+        android:src="@mipmap/clear_day"
+        android:layout_alignTop="@+id/loc"
+        android:layout_toStartOf="@+id/loc"
+        android:layout_marginRight="5dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/temp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-20dp"
+        android:id="@+id/linearLayout">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="HUMID"
+                android:id="@+id/humidity"
+                android:textColor="#80ffffff"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0.88"
+                android:id="@+id/humidityVal"
+                android:textColor="#ffffff"
+                android:textSize="24sp"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="RAIN"
+                android:id="@+id/precip"
+                android:textColor="#80ffffff"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="100"
+                android:id="@+id/precipVal"
+                android:textColor="#ffffff"
+                android:textSize="24sp"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CLOUD"
+                android:id="@+id/clouds"
+                android:textColor="#80ffffff"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:id="@+id/cloudsVal"
+                android:textColor="#ffffff"
+                android:textSize="24sp"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="WIND"
+                android:id="@+id/wind"
+                android:textColor="#80ffffff"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="9.24"
+                android:id="@+id/windVal"
+                android:textColor="#ffffff"
+                android:textSize="24sp"
+                android:gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Partly cloudy tonight."
+        android:id="@+id/minSummary"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:phoneNumber="false"
+        android:textColor="#ffffff"
+        android:textSize="18dp"
+        android:gravity="center_horizontal" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/refresh"
+        android:src="@mipmap/refresh"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0% chance of rain in the next hour."
+        android:id="@+id/hourSummary"
+        android:layout_below="@+id/minSummary"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textColor="#ffffff"
+        android:textSize="18dp"
+        android:gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear"
+        android:id="@+id/currentSummary"
+        android:layout_below="@+id/loc"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:textColor="#ffffff"
+        android:textSize="18dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Freeze Warning for Santa Clara, CA"
+        android:id="@+id/alert"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="18dp"
+        android:textColor="#ffffff"
+        android:gravity="center_horizontal" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/minIcon"
+        android:src="@mipmap/cloudy_night"
+        android:layout_alignTop="@+id/minSummary"
+        android:layout_toStartOf="@+id/minSummary"
+        android:layout_marginRight="5dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/hourIcon"
+        android:src="@mipmap/clear_day"
+        android:layout_alignTop="@+id/hourSummary"
+        android:layout_toStartOf="@+id/hourSummary"
+        android:layout_marginRight="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Drizzle on Monday, with temperatures bottoming out at 50°F on Monday."
+        android:id="@+id/dailySummary"
+        android:layout_below="@+id/hourSummary"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textColor="#ffffff"
+        android:textSize="18dp"
+        android:gravity="center_horizontal" />
+
 </RelativeLayout>
