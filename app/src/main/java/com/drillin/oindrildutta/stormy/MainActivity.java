@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -40,10 +41,11 @@ public class MainActivity extends AppCompatActivity {
     private final String[] COLORS = {"#1abc9c", "#2ecc71", "#3498db", "#9b59b6", "#34495e", "#16a085", "#27ae60", "#2980b9", "#8e44ad", "#2c3e50", "#f1c40f", "#e67e22", "#e74c3c", "#f39c12", "#d35400", "#c0392b", "#fc970b"};
     private final String API_KEY = "f53d47883f8a6d604248667fb3d0bb2b";
     //private final String TAG = MainActivity.class.getSimpleName();
+    private final String COLORA_DATA = "A";
+    private final String COLORB_DATA = "B";
     private final String MAIN_DATA = "JSON";
     private final String LAT_DATA = "LAT";
     private final String LONG_DATA = "LONG";
-    private final String COLOR_DATA = "COLOR";
 
     @Bind(R.id.background) RelativeLayout background;
     @Bind(R.id.refresh) ImageView refresh;
@@ -75,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
     private String url = "https://api.forecast.io/forecast/" + API_KEY + "/" + latitude + "," + longitude;
     private Random gen = new Random();
     private String jsonWeather;
-    private int color;
+    private int colorA;
+    private int colorB;
 
     //https://api.forecast.io/forecast/f53d47883f8a6d604248667fb3d0bb2b/37.3092040,-122.0333247
     //https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html#foreground.type=image&foreground.space.trim=1&foreground.space.pad=0.2&foreColor=fff%2C0&crop=0&backgroundShape=circle&backColor=3c506b%2C100&effects=shadow
@@ -90,9 +93,13 @@ public class MainActivity extends AppCompatActivity {
         jsonWeather = sharedPreferences.getString(MAIN_DATA, "");
         latitude = Double.parseDouble(sharedPreferences.getString(LAT_DATA, "37.3092040"));
         longitude = Double.parseDouble(sharedPreferences.getString(LONG_DATA, "-122.0333247"));
-        color = Color.parseColor(COLORS[gen.nextInt(COLORS.length)]);
+        colorA = Color.parseColor(COLORS[gen.nextInt(COLORS.length)]);
+        do {
+            colorB = Color.parseColor(COLORS[gen.nextInt(COLORS.length)]);
+        } while(colorB == colorA);
         if(savedInstanceState != null) {
-            color = savedInstanceState.getInt(COLOR_DATA, color);
+            colorA = savedInstanceState.getInt(COLORA_DATA, colorA);
+            colorB = savedInstanceState.getInt(COLORB_DATA, colorB);
             jsonWeather = savedInstanceState.getString(MAIN_DATA, jsonWeather);
         }
         boom();
@@ -118,7 +125,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Set Colors
-        background.setBackgroundColor(color);
+        //background.setBackgroundColor(color);
+        background.setBackground(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{colorA, colorB}));
 
         //Hide Everything
         background.setVisibility(View.INVISIBLE);
@@ -236,42 +244,48 @@ public class MainActivity extends AppCompatActivity {
             JSONObject data = new JSONObject(jsonWeather);
             JSONArray hourArray = data.getJSONObject("hourly").getJSONArray("data");
             WeatherHour[] hours = new WeatherHour[hourArray.length()];
-            for(int i = 0; i < hourArray.length(); i++)
-                hours[i] = new WeatherHour(
-                        ((JSONObject)hourArray.get(i)).getLong("time"),
-                        ((JSONObject)hourArray.get(i)).getString("summary"),
-                        ((JSONObject)hourArray.get(i)).getString("icon"),
-                        ((JSONObject)hourArray.get(i)).getDouble("precipProbability"),
-                        ((JSONObject)hourArray.get(i)).getDouble("temperature"),
-                        ((JSONObject)hourArray.get(i)).getDouble("apparentTemperature"),
-                        ((JSONObject)hourArray.get(i)).getDouble("humidity"),
-                        ((JSONObject)hourArray.get(i)).getDouble("windSpeed"),
-                        ((JSONObject)hourArray.get(i)).getDouble("cloudCover"));
+            for(int i = 0; i < hourArray.length(); i++) {
+                if(i < 49)
+                    hours[i] = new WeatherHour(
+                        (hourArray.getJSONObject(i)).getLong("time"),
+                        (hourArray.getJSONObject(i)).getString("summary"),
+                        (hourArray.getJSONObject(i)).getString("icon"),
+                        (hourArray.getJSONObject(i)).getDouble("precipProbability"),
+                        (hourArray.getJSONObject(i)).getDouble("temperature"),
+                        (hourArray.getJSONObject(i)).getDouble("apparentTemperature"),
+                        (hourArray.getJSONObject(i)).getDouble("humidity"),
+                        (hourArray.getJSONObject(i)).getDouble("windSpeed"),
+                        (hourArray.getJSONObject(i)).getDouble("cloudCover"));
+            }
             JSONArray dayArray = data.getJSONObject("daily").getJSONArray("data");
             WeatherDay[] days = new WeatherDay[dayArray.length()];
-            for(int i = 0; i < dayArray.length(); i++)
-                days[i] = new WeatherDay(
-                        ((JSONObject) dayArray.get(i)).getLong("time"),
-                        ((JSONObject) dayArray.get(i)).getString("summary"),
-                        ((JSONObject) dayArray.get(i)).getString("icon"),
-                        ((JSONObject) dayArray.get(i)).getDouble("temperatureMin"),
-                        ((JSONObject) dayArray.get(i)).getLong("temperatureMinTime"),
-                        ((JSONObject) dayArray.get(i)).getDouble("temperatureMax"),
-                        ((JSONObject) dayArray.get(i)).getLong("temperatureMaxTime"),
-                        ((JSONObject) dayArray.get(i)).getDouble("apparentTemperatureMin"),
-                        ((JSONObject) dayArray.get(i)).getLong("apparentTemperatureMinTime"),
-                        ((JSONObject) dayArray.get(i)).getDouble("apparentTemperatureMax"),
-                        ((JSONObject) dayArray.get(i)).getLong("apparentTemperatureMaxTime"),
-                        ((JSONObject) dayArray.get(i)).getLong("sunriseTime"),
-                        ((JSONObject) dayArray.get(i)).getLong("sunsetTime"),
-                        ((JSONObject) dayArray.get(i)).getDouble("precipIntensityMax"),
-                        ((JSONObject) dayArray.get(i)).getDouble("precipProbability"),
-                        ((JSONObject) dayArray.get(i)).getDouble("humidity"),
-                        ((JSONObject) dayArray.get(i)).getDouble("windSpeed"),
-                        ((JSONObject) dayArray.get(i)).getDouble("cloudCover"));
+            for(int i = 0; i < dayArray.length(); i++) {
+                double cloud = 0.0;
+                if((dayArray.getJSONObject(i)).has("cloudCover"))
+                    cloud = (dayArray.getJSONObject(i)).getDouble("cloudCover");
+                if(i < 8)
+                    days[i] = new WeatherDay(
+                        (dayArray.getJSONObject(i)).getLong("time"),
+                        (dayArray.getJSONObject(i)).getString("summary"),
+                        (dayArray.getJSONObject(i)).getString("icon"),
+                        (dayArray.getJSONObject(i)).getDouble("temperatureMin"),
+                        (dayArray.getJSONObject(i)).getLong("temperatureMinTime"),
+                        (dayArray.getJSONObject(i)).getDouble("temperatureMax"),
+                        (dayArray.getJSONObject(i)).getLong("temperatureMaxTime"),
+                        (dayArray.getJSONObject(i)).getDouble("apparentTemperatureMin"),
+                        (dayArray.getJSONObject(i)).getLong("apparentTemperatureMinTime"),
+                        (dayArray.getJSONObject(i)).getDouble("apparentTemperatureMax"),
+                        (dayArray.getJSONObject(i)).getLong("apparentTemperatureMaxTime"),
+                        (dayArray.getJSONObject(i)).getLong("sunriseTime"),
+                        (dayArray.getJSONObject(i)).getLong("sunsetTime"),
+                        (dayArray.getJSONObject(i)).getDouble("precipIntensityMax"),
+                        (dayArray.getJSONObject(i)).getDouble("precipProbability"),
+                        (dayArray.getJSONObject(i)).getDouble("humidity"),
+                        (dayArray.getJSONObject(i)).getDouble("windSpeed"), cloud);
+            }
             String alert = "";
-            if (data.has("alert"))
-                alert = data.getJSONObject("alert").getString("title");
+            if (data.has("alerts"))
+                alert = data.getJSONArray("alerts").getJSONObject(0).getString("title");
             weatherData = new WeatherModel(
                     data.getDouble("latitude"),
                     data.getDouble("longitude"),
@@ -343,7 +357,7 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-                alertUserAboutError("Oops!", "Something went horribly wrong... Restart the app.", "Ok, I got it!");
+                alertUserAboutError("Oops!", "Something went horribly wrong...", "Ok, I got it!");
             }
             @Override
             public void onResponse(Response response) throws IOException {
@@ -353,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                loadWeatherData(jsonWeather);
+                            loadWeatherData(jsonWeather);
                             }
                         });
                     } else
@@ -379,7 +393,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(MAIN_DATA, jsonWeather);
-        outState.putInt(COLOR_DATA, color);
+        outState.putInt(COLORA_DATA, colorA);
+        outState.putInt(COLORB_DATA, colorB);
     }
 
     @Override

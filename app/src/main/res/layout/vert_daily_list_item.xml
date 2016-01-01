@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="25dp"
+    android:paddingRight="15dp"
+    android:paddingTop="7.5dp"
+    android:paddingBottom="7.5dp"
+    android:background="#ffc400">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/circle"
+        android:src="@mipmap/bg_temperature" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100"
+        android:id="@+id/dTemp"
+        android:layout_alignTop="@+id/circle"
+        android:layout_alignEnd="@+id/circle"
+        android:layout_alignStart="@+id/circle"
+        android:layout_alignBottom="@+id/circle"
+        android:textStyle="bold"
+        android:gravity="center" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dIcon"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/circle"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@mipmap/clear_day" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wednesday"
+        android:id="@+id/dDay"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/dIcon"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:textSize="25dp" />
+</RelativeLayout>
